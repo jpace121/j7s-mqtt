@@ -67,6 +67,10 @@ class Node:
 
 
 def main():
-    node = Node('localhost', 10.0)
+    parser = argparse.ArgumentParser(description='')
+    parser.add_argument('broker', nargs='?', default='localhost', type=str, help='Broker address.')
+    parser.add_argument('rate', nargs='?', default=10.0, type=float, help='Rate to publish new samples.')
+    args = parser.parse_args()
+    node = Node(arg.broker, arg.rate)
 
     node.loop()

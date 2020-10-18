@@ -1,6 +1,6 @@
 from setuptools import setup
 
-package_name = 'j7s-mqtt'
+package_name = 'j7s_mqtt'
 
 setup(
     name=package_name,
@@ -11,15 +11,16 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
     ],
-    install_requires=['setuptools'],
+    install_requires=['setuptools', 'numpy', 'paho-mqtt'],
     zip_safe=True,
     maintainer='James Pace',
     maintainer_email='jpace121@gmail.com',
     description='TODO: Package description',
     license='Apache 2.0',
-    tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'sub=j7s_mqtt.sub:main',
+            'pub=j7s_mqtt.pub:main',
         ],
     },
 )

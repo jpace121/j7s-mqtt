@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import paho.mqqt.client
+import argparse
 import numpy as np
 import json
 import time
@@ -47,6 +48,13 @@ class Node:
 
 
 def main():
-    node = Node('localhost', 10.0, 'white', 1)
+    parser = argparse.ArgumentParser(description='')
+    parser.add_argument('broker', nargs='?', default='localhost', type=str, help='Broker address.')
+    parser.add_argument('rate', nargs='?', default=10.0, type=float, help='Rate to publish new samples.')
+    parser.add_argument('color', nargs='?', default='white', type=str, help='Color for index.')
+    parser.add_argument('index', nargs='?', default=0, type=int, help='Index for blinkt.')
+    args = parser.parse_args()
+
+    node = Node(args.broker, args.rate, args.color, args.index)
 
     node.loop()
