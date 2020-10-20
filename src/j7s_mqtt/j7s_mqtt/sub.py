@@ -12,12 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import blinkt_interface.Blinkt
-import blinkt_interface.Pixel
-import blinkt_interface.color
-import paho.mqqt.client
+import blinkt_interface
+import paho.mqtt.client
 import json
 import time
+import argparse
 
 def string_to_color(color, brightness):
     if color == 'red':
@@ -46,14 +45,14 @@ class Node:
                                                protocol=paho.mqtt.client.MQTTv5,
                                                transport="tcp")
         self._client.connect(broker_addr)
-        self._client.subscribe([("led_state"), paho.mqtt.client.SubscribeOptions(qos=1)])
+        self._client.subscribe([("led_state", paho.mqtt.client.SubscribeOptions(qos=1))])
         self._client.message_callback_add("led_state", self._callback)
 
         self._blinkt = blinkt_interface.Blinkt()
 
     @staticmethod
     def _callback(client, userdata, message):
-        message = json.loads(message)
+        message = json.loads(message.payload)
         color = string_to_color(message['color'], message['brightness'])
         if color:
             userdata._blinkt.setPixel(message['index'], color)
@@ -71,6 +70,10 @@ def main():
     parser.add_argument('broker', nargs='?', default='localhost', type=str, help='Broker address.')
     parser.add_argument('rate', nargs='?', default=10.0, type=float, help='Rate to publish new samples.')
     args = parser.parse_args()
-    node = Node(arg.broker, arg.rate)
+    node = Node(args.broker, args.rate)
 
     node.loop()
+
+
+if __name__=='__main__':
+    main()

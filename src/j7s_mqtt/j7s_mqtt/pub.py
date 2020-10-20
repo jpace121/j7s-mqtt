@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import paho.mqqt.client
+import paho.mqtt.client
 import argparse
 import numpy as np
 import json
@@ -21,6 +21,7 @@ import time
 class Node:
     def __init__(self, broker_addr, rate, color, index):
         self._rate = rate
+        self._msg = {}
         self._msg['color'] = color
         self._msg['index'] = index
         self._msg['brightness'] = 0
@@ -58,3 +59,6 @@ def main():
     node = Node(args.broker, args.rate, args.color, args.index)
 
     node.loop()
+
+if __name__ == '__main__':
+    main()
