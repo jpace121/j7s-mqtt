@@ -2,3 +2,7 @@ build/
 install/
 log/
 src/j7s-blinkt/
+src/argparse/
+src/json/
+paho/paho.mqtt.c/
+paho/paho.mqtt.cpp/
