@@ -19,6 +19,7 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <optional>
+#include <sstream>
 #include <string>
 #include <thread>
 
@@ -33,6 +34,31 @@ std::optional<std::string> getEnv(const std::string & key)
         return std::string(pointer);
     }
     return std::nullopt;
+}
+
+void validate_color(const std::string & color)
+{
+    const std::array<std::string, 7> valid_colors = {"aqua", "red",   "lime", "green",
+                                                     "blue", "white", "off"};
+    for (const auto & valid_option : valid_colors)
+    {
+        if (color == valid_option)
+        {
+            return;
+        }
+    }
+
+    // Given an invalid string.
+    // Build a list of the valid ones to make the warning message more friendly.
+    std::stringstream error_message;
+    error_message << "Invalid color option. Read: " << color << " Valid Options: { ";
+    for (const auto & valid_option : valid_colors)
+    {
+        error_message << valid_option << " ";
+    }
+    error_message << "}";
+
+    throw std::runtime_error(error_message.str());
 }
 
 int main(int argc, char * argv[])
@@ -58,6 +84,8 @@ int main(int argc, char * argv[])
     try
     {
         program.parse_args(argc, argv);
+
+        validate_color(program.get<std::string>("--color"));
     }
     catch (const std::runtime_error & err)
     {
