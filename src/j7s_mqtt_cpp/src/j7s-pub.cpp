@@ -47,11 +47,11 @@ int main(int argc, char *argv[])
            .help("LED index this publisher controls.")
            .action([](const std::string& value) { return std::stoi(value); });
     program.add_argument("-f", "--frequency")
-           .required()
+           .default_value(1.0)
            .help("Frequency for sin wave.")
            .action([](const std::string& value) { return std::stod(value); });
     program.add_argument("-d", "--display-frequency")
-           .required()
+           .default_value(10.0)
            .help("Frequency to publish a new decision.")
            .action([](const std::string& value) { return std::stod(value); });
     try
@@ -84,10 +84,9 @@ int main(int argc, char *argv[])
     while(true)
     {
         message["brightness"] = sin(2*M_PI*time*freq);
-        auto tok = top.publish(message.dump());
+        top.publish(message.dump());
         std::this_thread::sleep_for(sleep_duration);
         time+=sleep_time;
-        tok->wait(); // Is there a different way of doing this?
     }
     return 0;
 }
