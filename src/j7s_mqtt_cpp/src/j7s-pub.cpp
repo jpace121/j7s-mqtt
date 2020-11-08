@@ -11,55 +11,20 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+#include <j7s_mqtt_cpp/utils.hpp>
+
 #include <mqtt/async_client.h>
 #include <argparse/argparse.hpp>
+#include <nlohmann/json.hpp>
+
 #include <chrono>
 #include <cmath>
-#include <cstdlib>
 #include <iostream>
-#include <nlohmann/json.hpp>
-#include <optional>
-#include <sstream>
 #include <string>
 #include <thread>
 
 namespace json = nlohmann;
-
-std::optional<std::string> getEnv(const std::string & key)
-{
-    const char * pointer = std::getenv(key.c_str());
-
-    if (pointer)
-    {
-        return std::string(pointer);
-    }
-    return std::nullopt;
-}
-
-void validate_color(const std::string & color)
-{
-    const std::array<std::string, 7> valid_colors = {"aqua", "red",   "lime", "green",
-                                                     "blue", "white", "off"};
-    for (const auto & valid_option : valid_colors)
-    {
-        if (color == valid_option)
-        {
-            return;
-        }
-    }
-
-    // Given an invalid string.
-    // Build a list of the valid ones to make the warning message more friendly.
-    std::stringstream error_message;
-    error_message << "Invalid color option. Read: " << color << " Valid Options: { ";
-    for (const auto & valid_option : valid_colors)
-    {
-        error_message << valid_option << " ";
-    }
-    error_message << "}";
-
-    throw std::runtime_error(error_message.str());
-}
 
 int main(int argc, char * argv[])
 {
