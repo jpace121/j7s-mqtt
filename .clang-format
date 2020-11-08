@@ -1,0 +1,19 @@
+---
+Language: Cpp
+BasedOnStyle: Google
+
+AccessModifierOffset: -4
+AlignAfterOpenBracket: AlwaysBreak
+BreakBeforeBraces: Allman
+ColumnLimit: 100
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 4
+DerivePointerAlignment: false
+PointerAlignment: Middle
+ReflowComments: false
+AllowShortBlocksOnASingleLine: false
+BreakConstructorInitializers: AfterColon
+BreakInheritanceList: AfterColon
+AllowShortFunctionsOnASingleLine: Inline
+IndentWidth: 4
+...
