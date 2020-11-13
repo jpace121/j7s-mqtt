@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <blinkt_interface/color.hpp>
+
 #include <optional>
 #include <string>
 
@@ -22,3 +24,5 @@ std::optional<std::string> getEnv(const std::string & key);
 
 // Verify color is one the valid colors Blinkt has preprogrammed.
 void validate_color(const std::string & color);
+
+blinkt_interface::Pixel stringToPixel(const std::string& color, double brightness);

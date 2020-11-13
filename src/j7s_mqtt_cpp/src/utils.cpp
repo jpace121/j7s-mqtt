@@ -15,7 +15,6 @@
 #include <j7s_mqtt_cpp/utils.hpp>
 
 #include <array>
-#include <cstdlib>
 #include <sstream>
 
 std::optional<std::string> getEnv(const std::string & key)
@@ -52,4 +51,40 @@ void validate_color(const std::string & color)
     error_message << "}";
 
     throw std::runtime_error(error_message.str());
+}
+
+blinkt_interface::Pixel stringToPixel(const std::string& color, double brightness)
+{
+    if(color == "red")
+    {
+        return blinkt_interface::color::red(brightness);
+    }
+    else if(color == "lime")
+    {
+        return blinkt_interface::color::lime(brightness);
+    }
+    else if(color == "green")
+    {
+        return blinkt_interface::color::green(brightness);
+    }
+    else if(color == "blue")
+    {
+        return blinkt_interface::color::blue(brightness);
+    }
+    else if(color == "white")
+    {
+        return blinkt_interface::color::white(brightness);
+    }
+    else if(color == "aqua")
+    {
+        return blinkt_interface::color::aqua(brightness);
+    }
+    else if(color == "off")
+    {
+        return blinkt_interface::color::off(brightness);
+    }
+    else
+    {
+        throw std::logic_error("Invalid color provided.");
+    }
 }
