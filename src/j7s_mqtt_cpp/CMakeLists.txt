@@ -36,7 +36,16 @@ target_link_libraries(j7s-sub
   PRIVATE blinkt_interface::blinkt PahoMqttCpp::paho-mqttpp3 argparse::argparse nlohmann_json::nlohmann_json j7s-mqtt-utils)
 
 install(TARGETS j7s-pub j7s-sub j7s-mqtt-utils
-  EXPORT ${PROJECT_NAME}
-  DESTINATION lib/${PROJECT_NAME})
+  EXPORT export_${PROJECT_NAME}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+  )
+ament_export_targets(
+  export_${PROJECT_NAME}
+)
+ament_export_libraries(
+  j7s-mqtt-utils
+)
 
 ament_package()
