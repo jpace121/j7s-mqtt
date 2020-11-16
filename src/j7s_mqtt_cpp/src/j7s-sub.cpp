@@ -22,6 +22,8 @@
 #include <thread>
 #include <mutex>
 
+#include <iostream>
+
 using json = nlohmann::json;
 
 class J7sSubCallback : public mqtt::callback
@@ -68,8 +70,10 @@ void J7sSubCallback::message_arrived(mqtt::const_message_ptr msg)
     const auto index = payload["index"];
     const auto pixel = stringToPixel(payload["color"], payload["brightness"]);
 
+    std::cout << "Message arrived: Getting lock." << std::endl;
     {
         std::lock_guard<std::mutex> lock(_blinkt_mutex);
+        std::cout << "Message arrived: Setting pixel." << std::endl;
         _blinkt.setPixel(index, pixel);
     }
 
@@ -81,7 +85,9 @@ void displayFunc(const blinkt_interface::Blinkt & blinkt, std::mutex & blinkt_mu
     while(true)
     {
         {
+            std::cout << "Display. Getting lock." << std::endl;
             std::lock_guard<std::mutex> lock(blinkt_mutex);
+            std::cout << "Display. Calling display." << std::endl;
             blinkt.display();
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(sleep_time_ms));

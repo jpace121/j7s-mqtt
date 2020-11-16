@@ -24,6 +24,8 @@
 #include <string>
 #include <thread>
 
+#include <iostream>
+
 namespace json = nlohmann;
 
 int main(int argc, char * argv[])
@@ -78,6 +80,7 @@ int main(int argc, char * argv[])
     while (true)
     {
         message["brightness"] = sin(2 * M_PI * time * freq);
+        std::cout << "Publish brightness: " << message["brightness"] << std::endl;
         top.publish(message.dump());
         std::this_thread::sleep_for(sleep_duration);
         time += sleep_time;
