@@ -56,21 +56,20 @@ class Node:
         color = string_to_color(message['color'], message['brightness'])
         if color:
             userdata._blinkt.setPixel(message['index'], color)
+            self._blinkt.display()
 
     def loop(self):
         self._client.loop_start()
 
         while True:
-            self._blinkt.display()
-            time.sleep(1.0/self._rate)
+            time.sleep(1)
 
 
 def main():
     parser = argparse.ArgumentParser(description='')
     parser.add_argument('broker', nargs='?', default='localhost', type=str, help='Broker address.')
-    parser.add_argument('rate', nargs='?', default=10.0, type=float, help='Rate to publish new samples.')
     args = parser.parse_args()
-    node = Node(args.broker, args.rate)
+    node = Node(args.broker)
 
     node.loop()
 
