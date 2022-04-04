@@ -4,16 +4,18 @@ BasedOnStyle: Google
 
 AccessModifierOffset: -4
 AlignAfterOpenBracket: AlwaysBreak
+AllowShortBlocksOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Inline
+BinPackArguments: false
+BinPackParameters: false
 BreakBeforeBraces: Allman
+BreakConstructorInitializers: AfterColon
+BreakInheritanceList: AfterColon
 ColumnLimit: 100
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
 DerivePointerAlignment: false
-PointerAlignment: Middle
-ReflowComments: false
-AllowShortBlocksOnASingleLine: false
-BreakConstructorInitializers: AfterColon
-BreakInheritanceList: AfterColon
-AllowShortFunctionsOnASingleLine: Inline
 IndentWidth: 4
+PointerAlignment: Right
+ReflowComments: false
 ...

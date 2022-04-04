@@ -1,9 +1,21 @@
 # j7s-mqtt
 
-For cpp build, need to install paho libraries. Currently, these are installed system
-wide, but it is my goal to eventually get them to build with colcon.
+## Dependencies
+
+On Debian 11:
+```
+sudo apt install libgpiod-dev
+```
+
+Need to manually install paho libraries.
+I'll **eventually** add these to my apt repo.
+
+Currently, these are installed system wide.
 
 ```
+sudo pip3 install vcstool
+
+vcs import < paho.repos
 cd paho/paho.mqqt.c
 make
 sudo make install

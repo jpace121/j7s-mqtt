@@ -1,0 +1,9 @@
+repositories:
+  paho/paho.mqtt.c:
+    type: git
+    url: https://github.com/eclipse/paho.mqtt.c.git
+    version: master
+  paho/paho.mqtt.cpp:
+    type: git
+    url: https://github.com/eclipse/paho.mqtt.cpp.git
+    version: master
