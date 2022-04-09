@@ -4,7 +4,7 @@
 
 On Debian 11:
 ```
-sudo apt install libgpiod-dev
+sudo apt install libgpiod-dev libcurl4-openssl-dev
 ```
 
 Need to manually install paho libraries.

@@ -14,6 +14,9 @@
 
 #include <j7s_mqtt_cpp/utils.hpp>
 
+#include <cpr/cpr.h>
+#include <nlohmann/json.hpp>
+
 #include <array>
 #include <sstream>
 
@@ -26,6 +29,38 @@ std::optional<std::string> getEnv(const std::string & key)
         return std::string(pointer);
     }
     return std::nullopt;
+}
+
+std::string fetchToken(const std::string& clientCert,
+                       const std::string& clientKey,
+                       const std::string& username,
+                       const std::string& oidcAuthority,
+                       const std::string& oidcClient)
+{
+    using json = nlohmann::json;
+
+    cpr::SslOptions sslOpts = cpr::Ssl(cpr::ssl::CertFile{clientCert.c_str()}, cpr::ssl::KeyFile{clientKey.c_str()});
+
+    cpr::Response well_known = cpr::Get(cpr::Url{oidcAuthority + ".well-known/openid-configuration"}, sslOpts);
+    if(well_known.status_code == 404)
+    {
+        std::stringstream ss;
+        ss << "Could not find token end point. Authority: " << oidcAuthority << "\n"
+           << "(Hint: That should end in a slash, but this program doesn't confirm that...)";
+        throw std::runtime_error(ss.str());
+    }
+    const auto json_well_known = json::parse(well_known.text);
+    const std::string token_url = json_well_known["token_endpoint"];
+
+    cpr::Payload data({{"grant_type", "password"}, {"client_id", oidcClient.c_str()}, {"username", username.c_str()}});
+    cpr::Response token_resp = cpr::Post(cpr::Url{token_url}, sslOpts, data);
+    if(token_resp.status_code == 404)
+    {
+        throw std::runtime_error("Could not get token.");
+    }
+    const auto json_token = json::parse(token_resp.text);
+
+    return json_token["access_token"];
 }
 
 void validate_color(const std::string & color)

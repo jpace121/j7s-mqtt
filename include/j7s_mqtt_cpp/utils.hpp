@@ -22,6 +22,13 @@
 // environment variable isn't set.
 std::optional<std::string> getEnv(const std::string & key);
 
+// Fetch an access token from the remote oidc authority.
+std::string fetchToken(const std::string& clientCert,
+                       const std::string& clientKey,
+                       const std::string& username,
+                       const std::string& oidcAuthority,
+                       const std::string& oidcClient);
+
 // Verify color is one the valid colors Blinkt has preprogrammed.
 void validate_color(const std::string & color);
 
