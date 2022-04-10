@@ -85,7 +85,7 @@ int main(int, char **)
 
     if((not clientCertOpt) or (not clientKeyOpt))
     {
-        throw std::runtime_error("Missing J7S_CLEINT_CERT or J7S_CLIENT_KEY.");
+        throw std::runtime_error("Missing J7S_CLIENT_CERT or J7S_CLIENT_KEY.");
     }
     const auto clientCert = std::filesystem::absolute(clientCertOpt.value());
     const auto clientKey = std::filesystem::absolute(clientKeyOpt.value());
@@ -96,7 +96,7 @@ int main(int, char **)
     const auto oidcClient = getEnv("J7S_OIDC_CLIENT").value_or("mqtt");
 
 
-    // Login to Keycloak.
+    // Get token from Keycloak.
     const auto token = fetchToken(clientCert, clientKey, username, oidcAuthority, oidcClient);
 
     // Now we can build the connection object for the broker.
