@@ -68,10 +68,8 @@ void J7sSubCallback::message_arrived(mqtt::const_message_ptr msg)
     const auto index = payload["index"];
     const auto pixel = stringToPixel(payload["color"], payload["brightness"]);
 
-    {
-        _blinkt.setPixel(index, pixel);
-        _blinkt.display();
-    }
+    _blinkt.setPixel(index, pixel);
+    _blinkt.display();
 
     return;
 }
@@ -82,6 +80,7 @@ int main(int, char **)
     // Get settings from environment variables.
     const auto clientCertOpt = getEnv("J7S_CLIENT_CERT");
     const auto clientKeyOpt = getEnv("J7S_CLIENT_KEY");
+    const auto userNameOpt = getEnv("J7S_USERNAME");
 
     if((not clientCertOpt) or (not clientKeyOpt))
     {
@@ -90,8 +89,13 @@ int main(int, char **)
     const auto clientCert = std::filesystem::absolute(clientCertOpt.value());
     const auto clientKey = std::filesystem::absolute(clientKeyOpt.value());
 
+    if(not userNameOpt)
+    {
+        throw std::runtime_error("Missing J7S_USERNAME.");
+    }
+    const auto username = userNameOpt.value();
+
     const auto brokerAddr = getEnv("J7S_BROKER").value_or("ssl://mqtt.jpace121.net:8883");
-    const auto username = getEnv("J7S_USERNAME").value_or(getEnv("USER").value_or("j7s"));
     const auto oidcAuthority = getEnv("J7S_AUTHORITY").value_or("https://auth.jpace121.net/realms/jpace121-services/");
     const auto oidcClient = getEnv("J7S_OIDC_CLIENT").value_or("mqtt");
 
