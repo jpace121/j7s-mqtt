@@ -48,12 +48,19 @@ J7sSubCallback::J7sSubCallback(
 
 void J7sSubCallback::connected(const std::string&)
 {
-    _client.subscribe("led_state", 0);
+    _client.subscribe("/led_state/+", 0);
 }
 
 void J7sSubCallback::message_arrived(mqtt::const_message_ptr msg)
 {
-    if(msg->get_topic() != "led_state")
+    const auto topic_split = stringSplit(msg->get_topic(), '/');
+
+    if(topic_split.size() != 2)
+    {
+        return;
+    }
+
+    if(topic_split[0] != "led_state")
     {
         return;
     }
@@ -65,7 +72,7 @@ void J7sSubCallback::message_arrived(mqtt::const_message_ptr msg)
 
     const auto payload = json::parse(msg->get_payload_str());
 
-    const auto index = payload["index"];
+    const auto index = std::stoi(topic_split[1]);
     const auto pixel = stringToPixel(payload["color"], payload["brightness"]);
 
     _blinkt.setPixel(index, pixel);

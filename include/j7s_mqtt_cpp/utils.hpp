@@ -16,6 +16,7 @@
 
 #include <optional>
 #include <string>
+#include <vector>
 
 // Try to get an environment variable, either return an optional
 // with the value of the environment variable, or nullopt if the
@@ -28,6 +29,8 @@ std::string fetchToken(const std::string& clientCert,
                        const std::string& username,
                        const std::string& oidcAuthority,
                        const std::string& oidcClient);
+
+std::vector<std::string> stringSplit(const std::string &input, char delimiter);
 
 // Verify color is one the valid colors Blinkt has preprogrammed.
 void validate_color(const std::string & color);

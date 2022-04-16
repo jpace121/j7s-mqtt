@@ -21,7 +21,7 @@ target_include_directories(j7s-pub PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 target_link_libraries(j7s-pub
-  PRIVATE blinkt PahoMqttCpp::paho-mqttpp3 argparse::argparse nlohmann_json::nlohmann_json j7s-mqtt-utils)
+  PRIVATE blinkt PahoMqttCpp::paho-mqttpp3 argparse::argparse nlohmann_json::nlohmann_json fmt j7s-mqtt-utils)
 
 add_executable(j7s-sub src/j7s-sub.cpp)
 target_include_directories(j7s-sub PUBLIC

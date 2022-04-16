@@ -31,6 +31,20 @@ std::optional<std::string> getEnv(const std::string & key)
     return std::nullopt;
 }
 
+std::vector<std::string> stringSplit(const std::string &input, char delimiter)
+{
+    std::vector<std::string> toReturn;
+    std::stringstream stream(input);
+
+    std::string tmpString;
+    while (std::getline(stream, tmpString, delimiter))
+    {
+        toReturn.push_back(tmpString);
+    }
+
+    return toReturn;
+}
+
 std::string fetchToken(const std::string& clientCert,
                        const std::string& clientKey,
                        const std::string& username,

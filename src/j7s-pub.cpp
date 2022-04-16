@@ -17,6 +17,7 @@
 #include <mqtt/async_client.h>
 #include <argparse/argparse.hpp>
 #include <nlohmann/json.hpp>
+#include <fmt/core.h>
 
 #include <chrono>
 #include <cmath>
@@ -96,10 +97,10 @@ int main(int argc, char * argv[])
 
     json::json message;
     message["brightness"] = 0.0;
-    message["index"] = program.get<int>("--index");
     message["color"] = program.get<std::string>("--color");
 
-    mqtt::topic top(client, "led_state", 1);
+    const std::string topic_name = fmt::format("/led_state/{}", program.get<int>("--index"));
+    mqtt::topic top(client, topic_name, 1);
 
     double time = 0.0;
     const auto sleep_time = 1.0 / program.get<double>("--display-frequency");

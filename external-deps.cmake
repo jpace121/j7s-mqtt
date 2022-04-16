@@ -24,4 +24,10 @@ FetchContent_Declare(cpr
     GIT_SHALLOW "True"
 )
 
-FetchContent_MakeAvailable(j7s-blinkt argparse json cpr)
+FetchContent_Declare(fmt
+    GIT_REPOSITORY "https://github.com/fmtlib/fmt.git"
+    GIT_TAG "8.1.1"
+    GIT_SHALLOW "True"
+)
+
+FetchContent_MakeAvailable(j7s-blinkt argparse json cpr fmt)
