@@ -39,7 +39,10 @@ std::vector<std::string> stringSplit(const std::string &input, char delimiter)
     std::string tmpString;
     while (std::getline(stream, tmpString, delimiter))
     {
-        toReturn.push_back(tmpString);
+        if (not tmpString.empty())
+        {
+            toReturn.push_back(tmpString);
+        }
     }
 
     return toReturn;
